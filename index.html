@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tu Programa Fit · 48F</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    :root {
+      --rose: #D95B7F;
+      --rose-dark: #B8426A;
+      --rose-light: #FCEEF3;
+      --teal: #1B8C7D;
+      --teal-light: #E0F4F1;
+      --amber: #E07B39;
+      --amber-light: #FDF0E8;
+      --dark: #1C1C2E;
+      --card: #FFFFFF;
+      --surf: #F8F7FA;
+      --bd: #EBEBF0;
+      --txt: #1C1C2E;
+      --muted: #6B6B80;
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    html, body { font-family: 'Open Sans', sans-serif; color: var(--txt); background: var(--surf); }
+
+    .wrap { max-width: 480px; margin: 0 auto; padding: 0 0 80px; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(145deg, #1C1C2E 0%, #2D1B3D 60%, #1B3A35 100%);
+      color: #fff;
+      padding: 24px 18px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: rgba(217,91,127,0.18);
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30px; left: -30px;
+      width: 130px; height: 130px;
+      border-radius: 50%;
+      background: rgba(27,140,125,0.15);
+    }
+    .hero-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 3px;
+      color: var(--rose); text-transform: uppercase; margin-bottom: 6px;
+    }
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 28px; font-weight: 900; line-height: 1.1;
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .hero h1 span { color: var(--rose); }
+    .hero-sub { font-size: 12px; opacity: 0.65; line-height: 1.5; margin-bottom: 14px; }
+    .hero-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+    .hero-pill {
+      font-size: 11px; font-weight: 600;
+      padding: 4px 10px; border-radius: 20px;
+      background: rgba(255,255,255,0.1); color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .hero-pill.rose { background: rgba(217,91,127,0.2); border-color: rgba(217,91,127,0.4); color: #F9B8CC; }
+    .hero-pill.teal { background: rgba(27,140,125,0.2); border-color: rgba(27,140,125,0.4); color: #7DDDD2; }
+
+    /* ── TAB BAR ── */
+    .tab-bar {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 5px; padding: 10px 12px 0; background: var(--surf);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .tab-bar button {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 11px 4px; border-radius: var(--radius-sm);
+      border: 1.5px solid var(--bd);
+      background: var(--card); color: var(--muted);
+      cursor: pointer; min-height: 46px; line-height: 1.2;
+      transition: all 0.15s;
+    }
+    .tab-bar button.active {
+      background: var(--rose); border-color: var(--rose); color: #fff;
+    }
+    .tab-content { padding: 14px 12px 0; }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── SECTION HEADERS ── */
+    .ph {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 19px; font-weight: 900; text-transform: uppercase;
+      letter-spacing: 0.5px; margin-bottom: 10px; margin-top: 18px;
+    }
+    .ph:first-child { margin-top: 0; }
+    .ph span { color: var(--rose); }
+    .ph.teal span { color: var(--teal); }
+
+    .sub { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--card); border: 1px solid var(--bd);
+      border-radius: var(--radius); overflow: hidden; margin-bottom: 10px;
+    }
+
+    /* ── LIBRARY ── */
+    .muscle-hdr {
+      font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      color: var(--rose); padding: 11px 14px;
+      border-bottom: 1px solid var(--bd);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .muscle-hdr.teal { color: var(--teal); }
+
+    .ex-row {
+      display: flex; align-items: center;
+      padding: 13px 14px; border-bottom: 1px solid var(--bd);
+      cursor: pointer; gap: 10px; min-height: 64px;
+      transition: background 0.1s;
+    }
+    .ex-row:last-child { border-bottom: none; }
+    .ex-row:active { background: var(--surf); }
+    .ex-left { flex: 1; min-width: 0; }
+    .ex-name {
+      font-size: 15px; font-weight: 600;
+      display: flex; align-items: center; gap: 7px; margin-bottom: 5px;
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .dot-rose { background: var(--rose); }
+    .dot-teal { background: var(--teal); }
+    .mods { display: flex; gap: 4px; flex-wrap: wrap; }
+    .mod {
+      font-size: 10px; padding: 2px 7px; border-radius: 8px; font-weight: 700;
+    }
+    .mod-b { background: var(--teal-light); color: #0D6B5E; }
+    .mod-i { background: #EAF1FC; color: #1A5FA8; }
+    .mod-a { background: var(--rose-light); color: #A82F58; }
+    .ex-arrow { color: var(--muted); font-size: 22px; flex-shrink: 0; }
+
+    /* ── MODAL ── */
+    .modal-wrap { display: none; margin-bottom: 12px; }
+    .modal-wrap.open { display: block; }
+    .modal-inner { background: var(--card); border: 1px solid var(--bd); border-radius: var(--radius); overflow: hidden; }
+    .modal-hdr {
+      padding: 14px; display: flex; justify-content: space-between; align-items: flex-start;
+      border-bottom: 1px solid var(--bd);
+      background: linear-gradient(135deg, #1C1C2E, #2D1B3D);
+      color: #fff;
+    }
+    .modal-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      color: var(--rose); text-transform: uppercase; margin-bottom: 3px;
+    }
+    .modal-tag.teal { color: #7DDDD2; }
+    .modal-title { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900; line-height: 1; }
+    .modal-close {
+      background: rgba(255,255,255,0.1); border: none; font-size: 20px;
+      cursor: pointer; color: #fff; width: 40px; height: 40px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .modal-body { padding: 14px; }
+    .yt-thumb { display: block; position: relative; border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 12px; text-decoration: none; }
+    .yt-thumb img { width: 100%; display: block; }
+    .yt-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); }
+    .yt-play { width: 58px; height: 42px; background: #ff0000; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .yt-play svg { width: 18px; height: 18px; fill: #fff; margin-left: 3px; }
+    .yt-lbl { color: #fff; font-size: 11px; margin-top: 7px; font-weight: 600; text-align: center; padding: 0 12px; line-height: 1.4; }
+    .tip-box {
+      font-size: 13px; color: var(--muted); background: var(--surf);
+      border-radius: var(--radius-sm); padding: 12px;
+      margin-bottom: 12px; border-left: 3px solid var(--rose); line-height: 1.6;
+    }
+    .tip-box.teal { border-left-color: var(--teal); }
+    .prog-rows { border: 1px solid var(--bd); border-radius: var(--radius-sm); overflow: hidden; }
+    .prog-row { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-bottom: 1px solid var(--bd); }
+    .prog-row:last-child { border-bottom: none; }
+    .prog-text { font-size: 13px; flex: 1; line-height: 1.4; }
+
+    /* ── PLAN ── */
+    .plan-toggle { display: grid; grid-template-columns: repeat(2,1fr); gap: 6px; margin-bottom: 14px; }
+    .plan-btn {
+      font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700;
+      text-transform: uppercase; padding: 12px 6px;
+      border-radius: var(--radius-sm); border: 1.5px solid var(--bd);
+      background: var(--card); color: var(--muted); cursor: pointer; min-height: 46px;
+    }
+    .plan-btn.active { background: var(--rose); border-color: var(--rose); color: #fff; }
+    .plan-btn.teal-btn { color: var(--teal); border-color: var(--teal); }
+    .plan-btn.teal-btn.active { background: var(--teal); border-color: var(--teal); color: #fff; }
+    .plan-btn.amber-btn { color: var(--amber); border-color: var(--amber); }
+    .plan-btn.amber-btn.active { background: var(--amber); border-color: var(--amber); color: #fff; }
+
+    .week-intro {
+      border-radius: var(--radius); padding: 14px; margin-bottom: 12px;
+      border-left: 3px solid var(--rose);
+      background: var(--rose-light);
+    }
+    .week-intro p { font-size: 13px; color: #7A2040; line-height: 1.6; }
+    .week-intro.teal { border-left-color: var(--teal); background: var(--teal-light); }
+    .week-intro.teal p { color: #0A4A40; }
+    .week-intro.amber { border-left-color: var(--amber); background: var(--amber-light); }
+    .week-intro.amber p { color: #7A3A10; }
+
+    .day-card { background: var(--card); border: 1px solid var(--bd); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; }
+    .day-hdr {
+      padding: 12px 14px; border-bottom: 1px solid var(--bd);
+      background: var(--surf); display: flex; align-items: flex-start; justify-content: space-between;
+    }
+    .day-label { font-family: 'Montserrat', sans-serif; font-size: 17px; font-weight: 900; text-transform: uppercase; }
+    .day-focus { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+    .day-badge {
+      font-size: 10px; font-weight: 700; padding: 3px 9px;
+      border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+    }
+    .badge-rose { background: var(--rose-light); color: var(--rose-dark); }
+    .badge-teal { background: var(--teal-light); color: var(--teal); }
+    .badge-amber { background: var(--amber-light); color: var(--amber); }
+    .badge-gray { background: var(--bd); color: var(--muted); }
+
+    .w-row {
+      display: flex; align-items: center; padding: 12px 14px;
+      border-bottom: 1px solid var(--bd); cursor: pointer; gap: 10px; min-height: 58px;
+      transition: background 0.1s;
+    }
+    .w-row:last-child { border-bottom: none; }
+    .w-row:active { background: var(--surf); }
+    .w-info { flex: 1; }
+    .w-name { font-size: 15px; font-weight: 600; line-height: 1.2; }
+    .w-detail { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .w-meta { flex-shrink: 0; text-align: right; min-width: 64px; }
+    .w-sets { font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700; color: var(--rose); line-height: 1; }
+    .w-sets.teal { color: var(--teal); }
+    .w-sets.amber { color: var(--amber); }
+    .w-rest { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .w-rest-icon { font-size: 10px; }
+
+    /* ── CARDIO CARD ── */
+    .cardio-banner {
+      background: linear-gradient(135deg, #1B3A35, #0F2B26);
+      color: #fff; border-radius: var(--radius); padding: 16px;
+      margin-bottom: 10px; position: relative; overflow: hidden;
+    }
+    .cardio-banner::after {
+      content: '🚶‍♀️';
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      font-size: 48px; opacity: 0.25;
+    }
+    .cardio-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: #7DDDD2; text-transform: uppercase; margin-bottom: 4px; }
+    .cardio-title { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 900; margin-bottom: 6px; }
+    .cardio-desc { font-size: 13px; opacity: 0.75; line-height: 1.5; }
+
+    .cardio-zones { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+    .zone-card { background: var(--card); border: 1px solid var(--bd); border-radius: var(--radius-sm); padding: 14px; }
+    .zone-hdr { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .zone-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .zone-name { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; }
+    .zone-hr { font-size: 11px; color: var(--muted); }
+    .zone-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .zone-tip { font-size: 12px; font-weight: 600; color: var(--teal); margin-top: 6px; }
+
+    /* ── TOOLS / TECHNIQUES ── */
+    .tech-card { background: var(--card); border: 1px solid var(--bd); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; }
+    .tech-top { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+    .tech-num { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; color: var(--rose); line-height: 1; }
+    .tech-name { font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700; text-transform: uppercase; }
+    .tech-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 8px; }
+    .tech-ex { font-size: 12px; background: var(--surf); border-radius: var(--radius-sm); padding: 10px 12px; border-left: 3px solid var(--rose); line-height: 1.5; }
+
+    .gear-card { background: var(--card); border: 1px solid var(--bd); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; }
+    .gear-name { font-family: 'Montserrat', sans-serif; font-size: 17px; font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
+    .gear-price { font-size: 12px; font-weight: 700; color: var(--rose); margin-bottom: 10px; }
+    .gear-uses { list-style: none; }
+    .gear-uses li {
+      font-size: 13px; color: var(--muted); padding: 7px 0;
+      border-bottom: 1px solid var(--bd); display: flex; align-items: center; gap: 8px;
+    }
+    .gear-uses li:last-child { border-bottom: none; }
+    .gear-uses li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--rose); flex-shrink: 0; }
+
+    .ms-card {
+      background: var(--card); border: 1px solid var(--bd); border-radius: var(--radius);
+      padding: 14px; display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
+    }
+    .ms-num { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900; color: var(--rose); width: 46px; text-align: center; flex-shrink: 0; line-height: 1; }
+    .ms-info { flex: 1; }
+    .ms-name { font-size: 14px; font-weight: 600; line-height: 1.3; }
+    .ms-why { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+    .ms-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 9px; border-radius: 12px; white-space: nowrap; flex-shrink: 0; }
+
+    .back-warning {
+      background: #FFF8E1; border: 1px solid #FFD54F; border-radius: var(--radius);
+      padding: 12px 14px; margin-bottom: 14px; display: flex; gap: 10px; align-items: flex-start;
+    }
+    .back-warning-icon { font-size: 20px; flex-shrink: 0; }
+    .back-warning p { font-size: 12px; color: #6D4C10; line-height: 1.6; }
+    .back-warning strong { font-weight: 700; display: block; margin-bottom: 2px; }
+
+    /* ── TIMER ── */
+    .timer-card { background: var(--card); border: 1px solid var(--bd); border-radius: var(--radius); padding: 20px; text-align: center; }
+    .t-phase { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 4px; }
+    .t-display { font-family: 'Montserrat', sans-serif; font-size: 80px; font-weight: 900; line-height: 1; color: var(--rose); margin-bottom: 8px; }
+    .t-bar-wrap { width: 100%; height: 8px; background: var(--surf); border-radius: 4px; margin-bottom: 10px; }
+    .t-bar { height: 8px; border-radius: 4px; background: var(--rose); transition: width 0.9s linear; }
+    .t-info { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+    .t-presets { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 16px; }
+    .t-preset {
+      font-size: 13px; font-weight: 600; padding: 12px 6px;
+      border-radius: var(--radius-sm); border: 1.5px solid var(--bd);
+      background: var(--card); cursor: pointer; color: var(--muted); line-height: 1.3;
+    }
+    .t-preset.active { border-color: var(--rose); color: var(--rose); font-weight: 700; }
+    .t-btns { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+    .t-btn {
+      font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700; text-transform: uppercase;
+      padding: 16px 6px; border-radius: var(--radius-sm); border: 1.5px solid var(--bd);
+      background: var(--card); color: var(--txt); cursor: pointer; min-height: 52px;
+    }
+    .t-btn.primary { background: var(--rose); border-color: var(--rose); color: #fff; }
+    .t-stats { font-size: 13px; color: var(--muted); margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--bd); }
+    .t-stats span { font-weight: 700; color: var(--rose); }
+
+    /* ── PROGRESS TRACKER ── */
+    .tracker-intro { background: var(--rose-light); border-left: 3px solid var(--rose); border-radius: var(--radius); padding: 14px; margin-bottom: 14px; }
+    .tracker-intro p { font-size: 13px; color: #7A2040; line-height: 1.6; }
+    .week-tracker { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .week-row {
+      background: var(--card); border: 1px solid var(--bd); border-radius: var(--radius);
+      padding: 14px; display: flex; align-items: center; gap: 12px;
+    }
+    .week-num { font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 900; color: var(--rose); width: 38px; text-align: center; flex-shrink: 0; }
+    .week-info { flex: 1; }
+    .week-title { font-size: 14px; font-weight: 700; }
+    .week-desc { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+    .week-phase { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 3px 9px; border-radius: 12px; white-space: nowrap; flex-shrink: 0; }
+    .ph-adapt { background: var(--teal-light); color: var(--teal); }
+    .ph-build { background: var(--rose-light); color: var(--rose-dark); }
+    .ph-push { background: #EDE7F6; color: #6A1B9A; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Programa Personalizado · 48 años</div>
+    <h1>Más Fuerte.<br><span>Cada Semana.</span></h1>
+    <p class="hero-sub">Sin equipo · en casa · bajo impacto · 45 min/día · 3 días/semana</p>
+    <div class="hero-pills">
+      <span class="hero-pill rose">🔴 Fuerza = Puntos Rojos</span>
+      <span class="hero-pill teal">🟢 Movilidad = Puntos Verdes</span>
+      <span class="hero-pill">▶ Toca cualquier ejercicio para ver tutorial</span>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="active" onclick="showPage('biblioteca',this)">Biblio.</button>
+    <button onclick="showPage('plan',this)">Plan</button>
+    <button onclick="showPage('herramientas',this)">Extra</button>
+    <button onclick="showPage('timer',this)">Timer</button>
+  </div>
+
+  <!-- MODAL -->
+  <div id="modal-wrap" class="modal-wrap" style="padding: 0 12px;">
+    <div class="modal-inner">
+      <div class="modal-hdr">
+        <div>
+          <div class="modal-tag" id="m-tag"></div>
+          <div class="modal-title" id="m-title"></div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="m-video"></div>
+        <div class="tip-box" id="m-tip"></div>
+        <div class="prog-rows">
+          <div class="prog-row"><span class="mod mod-b">Principiante</span><span class="prog-text" id="m-beg"></span></div>
+          <div class="prog-row"><span class="mod mod-i">Intermedio</span><span class="prog-text" id="m-int"></span></div>
+          <div class="prog-row"><span class="mod mod-a">Avanzado</span><span class="prog-text" id="m-adv"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content">
+
+    <!-- ── BIBLIOTECA ── -->
+    <div id="biblioteca" class="page active">
+      <div class="ph">Biblioteca de <span>Fuerza</span></div>
+      <p class="sub">Toca cualquier ejercicio para ver el video y las progresiones.</p>
+      <div id="strength-library"></div>
+
+      <div class="ph teal" style="margin-top:20px">Biblioteca de <span>Movilidad</span></div>
+      <p class="sub">Movilidad diaria = menos dolor de espalda y mejores resultados.</p>
+      <div id="mob-library"></div>
+    </div>
+
+    <!-- ── PLAN ── -->
+    <div id="plan" class="page">
+      <div class="ph">Tu <span>Plan</span> de 12 Semanas</div>
+      <div class="plan-toggle">
+        <button class="plan-btn active" id="btn-fase1" onclick="switchPlan('fase1')">Fase 1<br><small>Sem 1–4</small></button>
+        <button class="plan-btn" id="btn-fase2" onclick="switchPlan('fase2')">Fase 2<br><small>Sem 5–8</small></button>
+        <button class="plan-btn teal-btn" id="btn-fase3" onclick="switchPlan('fase3')">Fase 3<br><small>Sem 9–12</small></button>
+        <button class="plan-btn amber-btn" id="btn-cardio" onclick="switchPlan('cardio')">Cardio<br><small>Semanal</small></button>
+      </div>
+
+      <div id="plan-fase1">
+        <div class="week-intro">
+          <p><strong>🌱 Fase 1 · Adaptación (Semanas 1–4)</strong><br>Tu cuerpo aprende los movimientos. Forma perfecta primero, intensidad después. 3 días de fuerza + caminata diaria de 20–30 min.</p>
+        </div>
+        <div id="fase1-days"></div>
+      </div>
+
+      <div id="plan-fase2" style="display:none">
+        <div class="week-intro">
+          <p><strong>💪 Fase 2 · Construcción (Semanas 5–8)</strong><br>Añadimos series y dificultad. Tiempo bajo tensión (TBT) = más músculo. Caminata aumenta a 35–40 min.</p>
+        </div>
+        <div id="fase2-days"></div>
+      </div>
+
+      <div id="plan-fase3" style="display:none">
+        <div class="week-intro teal">
+          <p><strong>🔥 Fase 3 · Intensidad (Semanas 9–12)</strong><br>Técnicas avanzadas: excéntrica lenta, superseries, isométricos. Caminata 45 min o trote suave.</p>
+        </div>
+        <div id="fase3-days"></div>
+      </div>
+
+      <div id="plan-cardio" style="display:none">
+        <div class="cardio-banner">
+          <div class="cardio-label">Cardio Semanal</div>
+          <div class="cardio-title">Camina Para Quemar</div>
+          <div class="cardio-desc">La herramienta #1 para bajar de peso sin lesiones a los 48 años.</div>
+        </div>
+        <div id="cardio-content"></div>
+      </div>
+    </div>
+
+    <!-- ── HERRAMIENTAS ── -->
+    <div id="herramientas" class="page">
+      <div class="ph">Técnicas de <span>Intensidad</span></div>
+      <div id="tech-list"></div>
+
+      <div class="ph" style="margin-top:6px">Equipo <span>Recomendado</span></div>
+      <p class="sub">Tienes el espacio. Estas 3 piezas multiplican tus resultados.</p>
+      <div id="gear-list"></div>
+
+      <div class="ph" style="margin-top:6px">Hitos de <span>Progresión</span></div>
+      <p class="sub">Mídete mensualmente. El progreso llegará más rápido de lo que crees.</p>
+      <div id="ms-list"></div>
+
+      <div class="ph" style="margin-top:6px">Cuida tu <span>Espalda</span></div>
+      <div id="back-tips"></div>
+    </div>
+
+    <!-- ── TIMER ── -->
+    <div id="timer" class="page">
+      <div class="ph">Temporizador de <span>Entrenamiento</span></div>
+      <div class="timer-card">
+        <div class="t-phase" id="t-phase">Lista</div>
+        <div class="t-display" id="t-display">00:00</div>
+        <div class="t-bar-wrap"><div class="t-bar" id="t-bar" style="width:100%"></div></div>
+        <div class="t-info" id="t-info">Selecciona un modo abajo</div>
+        <div class="t-presets">
+          <div class="t-preset active" onclick="setPreset(this,40,75,'Hipertrofia')">40s trabajo<br>75s descanso</div>
+          <div class="t-preset" onclick="setPreset(this,45,60,'Fuerza')">45s trabajo<br>60s descanso</div>
+          <div class="t-preset" onclick="setPreset(this,30,45,'HIIT suave')">30s trabajo<br>45s descanso</div>
+          <div class="t-preset" onclick="setPreset(this,0,90,'Solo descanso')">Solo descanso<br>90s</div>
+        </div>
+        <div class="t-btns">
+          <button class="t-btn" onclick="resetTimer()">Reiniciar</button>
+          <button class="t-btn primary" id="start-btn" onclick="toggleTimer()">Iniciar</button>
+          <button class="t-btn" onclick="skipPhase()">Saltar</button>
+        </div>
+        <div class="t-stats">Serie <span id="t-setnum">1</span> de 4 · Completadas: <span id="t-done">0</span></div>
+      </div>
+    </div>
+
+  </div><!-- /tab-content -->
+</div><!-- /wrap -->
+
+<script>
+// ── DATA: STRENGTH EXERCISES ─────────────────────────────────
+const EX = {
+  gluteos: [
+    { n:"Puente de Glúteos", b:"Puente con dos piernas", i:"Puente con una pierna", a:"Puente con pausa de 3s en cima", tip:"Activa el core, empuja con los talones. Excelente para la espalda baja — fortalece sin comprimir.", vid:"OUgsJ8-Vi0E", vt:"Puente de Glúteos · Tutorial" },
+    { n:"Patada de Glúteo en 4 Puntos", b:"Rodilla elevada 10 reps", i:"Extensión completa de pierna", a:"Con banda de resistencia", tip:"Columna neutral — no arquees la espalda. El glúteo hace el trabajo.", vid:"OUgsJ8-Vi0E", vt:"Patada de Glúteo · Tutorial" },
+    { n:"Sentadilla Sumo", b:"Sentadilla amplia con silla de apoyo", i:"Sentadilla sumo completa", a:"Sumo con pausa 2s abajo", tip:"Pies separados al ancho de hombros, puntillas afuera. Activa glúteos y cara interna.", vid:"u6tSGHqRiCI", vt:"Sentadilla Sumo · Tutorial" },
+  ],
+  piernas: [
+    { n:"Sentadilla", b:"Sentadilla a silla (solo tocar)", i:"Sentadilla con pausa 2s", a:"Sentadilla con 4s excéntrica", tip:"Espalda recta, rodillas siguen la línea de los pies. Bajo impacto para la espalda.", vid:"aclHkVaku9U", vt:"Sentadilla Perfecta · Athlean-X" },
+    { n:"Estocada Estática (Lunge)", b:"Lunge con apoyo en pared", i:"Lunge alterno", a:"Lunge con pausa 2s abajo", tip:"Rodilla trasera cerca del piso. No dejes que la rodilla delantera pase los dedos.", vid:"D7KaRcUTQeE", vt:"Lunge Perfecto · Tutorial" },
+    { n:"Sentadilla Búlgara", b:"Pie elevado en silla, media sentadilla", i:"Sentadilla búlgara completa", a:"Búlgara con 4s excéntrica", tip:"La reina de los ejercicios unilaterales. Progresa lento.", vid:"2C-uNgKwPLE", vt:"Sentadilla Búlgara · Athlean-X" },
+    { n:"Elevación de Pantorrillas", b:"Dos piernas en el piso", i:"Una pierna, mano en pared", a:"Una pierna + 3s en cima", tip:"Completa el rango de movimiento. Rodillas ligeramente flexionadas para soleus.", vid:"gwLzBv4cXLY", vt:"Pantorrillas · Tutorial" },
+    { n:"Wall Sit (Sentadilla en Pared)", b:"30 segundos", i:"60 segundos", a:"90s + brazos al frente", tip:"Muslos paralelos al piso. Cuádriceps isométrico puro.", vid:"y-wV4Venusw", vt:"Wall Sit · Athlean-X" },
+  ],
+  core: [
+    { n:"Plancha (Plank)", b:"Plancha en rodillas 30s", i:"Plancha 60s", a:"Plancha + toque de hombros", tip:"Glúteos apretados, costillas hacia abajo. Cuerpo recto de cabeza a talones.", vid:"pSHjTRCQxIw", vt:"Plancha Perfecta · Athlean-X" },
+    { n:"Dead Bug", b:"Un brazo a la vez", i:"Brazo opuesto + pierna opuesta", a:"Dead Bug con banda", tip:"La espalda baja NO se separa del piso NUNCA. El ejercicio más seguro para el core.", vid:"4XLEnwUr1d8", vt:"Dead Bug · Athlean-X" },
+    { n:"Hollow Body Hold", b:"Rodillas flexionadas", i:"Piernas extendidas", a:"Hollow body + rock", tip:"Lumbar pegada al piso siempre. Construye core de adentro hacia afuera.", vid:"LlDNef_Ztsc", vt:"Hollow Body · Athlean-X" },
+    { n:"Giro Ruso (Bird Dog)", b:"Bird Dog, un lado a la vez", i:"Bird Dog alterno lento", a:"Bird Dog con pausa 3s", tip:"Hombros y caderas cuadrados. No rotes. Activa multífidos (estabilizadores de espalda).", vid:"wiFNA3sqjCA", vt:"Bird Dog · Tutorial" },
+    { n:"Escaladores (Mountain Climbers)", b:"Escaladores lentos", i:"Ritmo moderado 30s", a:"Cross-body 45s", tip:"Caderas a nivel de hombros. Core activado. No saltes si tienes dolor lumbar.", vid:"nmwgirgXLYM", vt:"Mountain Climbers · Athlean-X" },
+  ],
+  pecho: [
+    { n:"Flexión de Rodillas (Push-Up Rodillas)", b:"Manos en pared", i:"Push-up en rodillas, manos en suelo", a:"Push-up clásico", tip:"Codos a 45° del cuerpo, no abiertos. Core activado. Perfecta para principiantes.", vid:"IODxDxX7oi4", vt:"Push-Up Perfecto · Athlean-X" },
+    { n:"Flexión Clásica (Push-Up)", b:"Push-up en rodillas", i:"Push-up estándar", a:"Push-up con 4s excéntrica", tip:"Cuerpo recto de cabeza a talones. No dejes caer las caderas.", vid:"IODxDxX7oi4", vt:"Push-Up Clásico · Tutorial" },
+    { n:"Flexión Inclinada (Incline Push-Up)", b:"Manos en mesa alta", i:"Manos en silla", a:"Manos en piso + pies elevados", tip:"Ángulo más fácil. Ideal para empezar. Pecho superior.", vid:"SKPab2YC8BE", vt:"Incline Push-Up · Tutorial" },
+  ],
+  espalda: [
+    { n:"Superman Hold", b:"Superman con pulsos", i:"Superman 3s de pausa", a:"Superman con banda de resistencia", tip:"Aprieta glúteos Y espalda al mismo tiempo. Fortalece extensores lumbares.", vid:"ZNVWTVdJW5s", vt:"Superman · Athlean-X" },
+    { n:"Ángel de Nieve Invertido", b:"Ángel lento en piso", i:"Ángel con tempo controlado", a:"Ángel con banda resistida", tip:"Boca abajo. Los brazos trazan un arco completo. Trabaja deltoides posterior y espalda media.", vid:"b3e9rENJGCE", vt:"Ángel Invertido · Tutorial" },
+    { n:"Jalar Banda de Resistencia (Row)", b:"Row sentada con banda", i:"Row inclinada con banda", a:"Row un brazo con pausa", tip:"El ejercicio de espalda #1 con banda. Retrae la escápula primero, luego jala.", vid:"lHuGxZZ09nY", vt:"Band Row · Athlean-X" },
+    { n:"Apertura de Banda (Pull-Apart)", b:"Grip ancho", i:"Grip a la altura de hombros", a:"Apertura sobre la cabeza", tip:"Brazos rectos. Siente los deltoides posteriores, no los trapecios.", vid:"3OYSIWaJJk4", vt:"Band Pull-Apart · Athlean-X" },
+  ],
+  hombros: [
+    { n:"Push-Up Pica (Pike Push-Up)", b:"Pike en posición elevada", i:"Pike Push-Up clásico", a:"Parada de manos contra pared", tip:"Caderas arriba, cabeza hacia el piso. El press de hombros del peso corporal.", vid:"x7_I5SUAd00", vt:"Pike Push-Up · Athlean-X" },
+    { n:"Elevación Lateral con Banda", b:"Dos manos, banda ancha", i:"Una mano, banda bajo el pie", a:"5s excéntrica al bajar", tip:"Solo hasta la altura del hombro. No levantes más — lastima el hombro.", vid:"jsjmzVMs_Kk", vt:"Elevación Lateral · Athlean-X" },
+    { n:"Toque de Hombros en Plancha", b:"En rodillas", i:"Posición de plancha", a:"En posición de pica", tip:"Caderas al nivel. Activa rotación anti-torsión del core.", vid:"QOCn3_iOAro", vt:"Toque de Hombros · Tutorial" },
+  ],
+  brazos: [
+    { n:"Curl con Banda de Resistencia", b:"Dos manos, banda bajo pies", i:"Un brazo alternado", a:"Técnica 21s (7+7+7)", tip:"Sin balanceo. La banda da resistencia ascendente — siente el bíceps al cima.", vid:"3g-1J2KkX_8", vt:"Curl con Banda · Athlean-X" },
+    { n:"Fondos de Tríceps (Dips)", b:"Silla, pies apoyados", i:"Silla, piernas extendidas", a:"Silla + mochila con peso", tip:"Usa una silla resistente. Baja hasta que los codos estén a 90°.", vid:"6kALZikXxLc", vt:"Fondos de Tríceps · Tutorial" },
+    { n:"Extensión Tríceps sobre Cabeza", b:"Dos manos, banda amplia", i:"Un brazo sobre cabeza", a:"5s excéntrica", tip:"Estira la cabeza larga del tríceps — la parte más grande. No muevas el codo.", vid:"Yi_zNoIsNcc", vt:"Extensión Tríceps · Tutorial" },
+  ],
+};
+
+const MOB_EX = {
+  espalda_mob: [
+    { n:"Cat-Cow (Gato-Vaca)", b:"Muy lento, 5s cada posición", i:"Fluido, 10 reps", a:"Con extensión de cuello", tip:"Articulación de toda la columna, de la cola hasta el cuello. El desayuno de tu espalda.", vid:"kqnua4rHVVA", vt:"Cat-Cow · Tutorial" },
+    { n:"Postura del Niño (Child's Pose)", b:"Con almohadas bajo el pecho", i:"Child's pose completa 60s", a:"Child's pose con extensión lateral", tip:"Relaja toda la cadena posterior. Ideal para aliviar la tensión lumbar.", vid:"qZ_KAoCS5y4", vt:"Child's Pose · Tutorial" },
+    { n:"Rodillo Columna Torácica", b:"Rol en espalda media, apoyo en manos", i:"Foam roll columna torácica", a:"Roll + brazos sobre cabeza", tip:"Solo la espalda media (entre omóplatos). NUNCA la lumbar.", vid:"cqd2USvPuCA", vt:"Foam Roll Torácico · Tutorial" },
+  ],
+  caderas: [
+    { n:"90/90 Cadera", b:"Con manos en piso de apoyo", i:"90/90 sentada, erguida", a:"90/90 + inclinación adelante", tip:"Ambas rodillas a 90°. La rotación de cadera que más falta en mujeres sedentarias.", vid:"t4Zz6-aG8Iw", vt:"90/90 Hip Stretch · Tutorial" },
+    { n:"Paloma (Pigeon Pose)", b:"Figura 4 en el piso (más fácil)", i:"Paloma con apoyo en manos", a:"Paloma completa con inclinación", tip:"90 segundos cada lado. Respira. No fuerces. Trabaja los rotadores de cadera.", vid:"0_zPqA65Nok", vt:"Pigeon Pose · Tutorial" },
+    { n:"El Mejor Estiramiento del Mundo", b:"Estocada + rotación con manos abajo", i:"World's Greatest Stretch", a:"Con alcance sobre la cabeza", tip:"Un movimiento que trabaja flexor de cadera, columna torácica y tendón de la corva.", vid:"CiWQ2IvY34", vt:"World's Greatest Stretch · Tutorial" },
+  ],
+  hombros_mob: [
+    { n:"Estiramiento Puerta (Chest Opener)", b:"Brazos a 90° en marco de puerta", i:"Brazos a 120°", a:"Inclinación adelante", tip:"Dos ángulos: 90° trabaja pectoral menor, 120° trabaja pectoral mayor.", vid:"B9uY01NoqBg", vt:"Chest Stretch · Tutorial" },
+    { n:"Deslizamiento en Pared (Wall Slides)", b:"Codos a 90° en la pared", i:"Rango completo", a:"Wall Slides + apertura de banda", tip:"Espalda y codos pegados a la pared todo el tiempo. Activa serrato y trapecio bajo.", vid:"YqNASYjJoLU", vt:"Wall Slides · Tutorial" },
+  ],
+};
+
+// ── RENDER LIBRARY ────────────────────────────────────────────
+const ICONS = { gluteos:'◐', piernas:'◆', core:'◎', pecho:'◈', espalda:'◉', hombros:'◇', brazos:'◑' };
+const MOB_ICONS = { espalda_mob:'◉', caderas:'◐', hombros_mob:'◇' };
+const LABELS = { gluteos:'Glúteos', piernas:'Piernas', core:'Core / Abdomen', pecho:'Pecho', espalda:'Espalda', hombros:'Hombros', brazos:'Brazos' };
+const MOB_LABELS = { espalda_mob:'Espalda Baja', caderas:'Caderas', hombros_mob:'Hombros / Pecho' };
+
+function renderLibrary() {
+  const sl = document.getElementById('strength-library');
+  Object.entries(EX).forEach(([m, exs]) => {
+    const sec = document.createElement('div'); sec.className = 'card'; sec.style.marginBottom = '10px';
+    sec.innerHTML = `<div class="muscle-hdr">${ICONS[m] || '◆'} ${LABELS[m] || m}</div>` +
+      exs.map((e, i) => `<div class="ex-row" onclick="openModal('${m}',${i},false)">
+        <div class="ex-left">
+          <div class="ex-name"><span class="dot dot-rose"></span>${e.n}</div>
+          <div class="mods"><span class="mod mod-b">Principiante</span><span class="mod mod-i">Intermedio</span><span class="mod mod-a">Avanzado</span></div>
+        </div><div class="ex-arrow">›</div></div>`).join('');
+    sl.appendChild(sec);
+  });
+
+  const ml = document.getElementById('mob-library');
+  Object.entries(MOB_EX).forEach(([m, exs]) => {
+    const sec = document.createElement('div'); sec.className = 'card'; sec.style.marginBottom = '10px';
+    sec.innerHTML = `<div class="muscle-hdr teal">${MOB_ICONS[m] || '◆'} ${MOB_LABELS[m] || m}</div>` +
+      exs.map((e, i) => `<div class="ex-row" onclick="openModal('${m}',${i},true)">
+        <div class="ex-left">
+          <div class="ex-name"><span class="dot dot-teal"></span>${e.n}</div>
+          <div class="mods"><span class="mod mod-b">Principiante</span><span class="mod mod-i">Intermedio</span><span class="mod mod-a">Avanzado</span></div>
+        </div><div class="ex-arrow">›</div></div>`).join('');
+    ml.appendChild(sec);
+  });
+}
+
+// ── MODAL ─────────────────────────────────────────────────────
+function openModal(muscle, idx, isMob) {
+  const src = isMob ? MOB_EX : EX;
+  const e = src[muscle][idx];
+  const isTeal = isMob;
+  document.getElementById('m-tag').textContent = (isMob ? 'MOVILIDAD · ' : 'FUERZA · ') + (isMob ? (MOB_LABELS[muscle] || muscle) : (LABELS[muscle] || muscle)).toUpperCase();
+  document.getElementById('m-tag').className = 'modal-tag' + (isTeal ? ' teal' : '');
+  document.getElementById('m-title').textContent = e.n;
+  const tip = document.getElementById('m-tip');
+  tip.textContent = e.tip;
+  tip.className = 'tip-box' + (isTeal ? ' teal' : '');
+  document.getElementById('m-beg').textContent = e.b;
+  document.getElementById('m-int').textContent = e.i;
+  document.getElementById('m-adv').textContent = e.a;
+  const va = document.getElementById('m-video');
+  if (e.vid) {
+    va.innerHTML = `<a class="yt-thumb" href="https://www.youtube.com/watch?v=${e.vid}" target="_blank" rel="noopener">
+      <img src="https://img.youtube.com/vi/${e.vid}/hqdefault.jpg" alt="${e.vt}" onerror="this.parentElement.style.display='none'">
+      <div class="yt-overlay"><div class="yt-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="yt-lbl">${e.vt}</div></div></a>`;
+  } else {
+    va.innerHTML = `<div style="background:var(--surf);border-radius:var(--radius-sm);padding:12px;text-align:center;font-size:13px;color:var(--muted);margin-bottom:12px">Busca "${e.n}" en YouTube</div>`;
+  }
+  const mw = document.getElementById('modal-wrap');
+  mw.classList.add('open');
+  mw.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function closeModal() {
+  document.getElementById('modal-wrap').classList.remove('open');
+  document.getElementById('m-video').innerHTML = '';
+}
+
+// ── PLAN DATA ─────────────────────────────────────────────────
+const FASE1 = [
+  { label:'Día 1', focus:'Cuerpo Inferior + Core', badge:'Fuerza', badgeClass:'badge-rose', exercises:[
+    { ex:'Puente de Glúteos', detail:'Aprieta 2s arriba', sets:'3×12', rest:'60s', m:'gluteos', i:0 },
+    { ex:'Sentadilla', detail:'A la silla, pausada', sets:'3×10', rest:'60s', m:'piernas', i:0 },
+    { ex:'Elevación de Pantorrillas', detail:'Dos piernas', sets:'3×15', rest:'45s', m:'piernas', i:3 },
+    { ex:'Dead Bug', detail:'Un lado a la vez', sets:'3×8 ea', rest:'30s', m:'core', i:1 },
+    { ex:'Plancha (Plank)', detail:'En rodillas', sets:'3×20s', rest:'30s', m:'core', i:0 },
+    { ex:'Cat-Cow (Gato-Vaca)', detail:'10 reps lentas (enfriamiento)', sets:'2×10', rest:'—', m:'espalda_mob', i:0, mob:true },
+  ]},
+  { label:'Día 2', focus:'Cuerpo Superior + Core', badge:'Fuerza', badgeClass:'badge-rose', exercises:[
+    { ex:'Flexión de Rodillas (Push-Up Rodillas)', detail:'Manos en pared o piso', sets:'3×8', rest:'60s', m:'pecho', i:0 },
+    { ex:'Superman Hold', detail:'3s de pausa arriba', sets:'3×10', rest:'45s', m:'espalda', i:0 },
+    { ex:'Push-Up Pica (Pike Push-Up)', detail:'Versión elevada', sets:'3×8', rest:'60s', m:'hombros', i:0 },
+    { ex:'Curl con Banda de Resistencia', detail:'Dos manos', sets:'3×12', rest:'60s', m:'brazos', i:0 },
+    { ex:'Fondos de Tríceps (Dips)', detail:'Pies apoyados', sets:'3×10', rest:'60s', m:'brazos', i:1 },
+    { ex:'Plancha (Plank)', detail:'En rodillas', sets:'3×20s', rest:'30s', m:'core', i:0 },
+    { ex:'Postura del Niño (Child\'s Pose)', detail:'60s (enfriamiento)', sets:'2×60s', rest:'—', m:'espalda_mob', i:1, mob:true },
+  ]},
+  { label:'Día 3', focus:'Cuerpo Completo', badge:'Fuerza', badgeClass:'badge-rose', exercises:[
+    { ex:'Sentadilla Sumo', detail:'Pausada 2s abajo', sets:'3×12', rest:'60s', m:'gluteos', i:2 },
+    { ex:'Estocada Estática (Lunge)', detail:'Con apoyo en pared', sets:'3×8 ea', rest:'75s', m:'piernas', i:1 },
+    { ex:'Apertura de Banda (Pull-Apart)', detail:'Grip ancho', sets:'3×15', rest:'45s', m:'espalda', i:3 },
+    { ex:'Toque de Hombros en Plancha', detail:'En rodillas', sets:'3×8 ea', rest:'45s', m:'hombros', i:2 },
+    { ex:'Hollow Body Hold', detail:'Rodillas flexionadas', sets:'3×20s', rest:'30s', m:'core', i:2 },
+    { ex:'El Mejor Estiramiento del Mundo', detail:'5 reps cada lado (enfriamiento)', sets:'2×5 ea', rest:'—', m:'caderas', i:2, mob:true },
+  ]},
+  { label:'Movilidad Diaria', focus:'5 min · Todos los días', badge:'Diario', badgeClass:'badge-teal', exercises:[
+    { ex:'Cat-Cow (Gato-Vaca)', detail:'Mañana o noche', sets:'2×10', rest:'—', m:'espalda_mob', i:0, mob:true },
+    { ex:'90/90 Cadera', detail:'60s cada lado', sets:'2×60s ea', rest:'—', m:'caderas', i:0, mob:true },
+    { ex:'Postura del Niño (Child\'s Pose)', detail:'60s', sets:'1×60s', rest:'—', m:'espalda_mob', i:1, mob:true },
+  ]},
+];
+
+const FASE2 = [
+  { label:'Día 1', focus:'Glúteos + Piernas Dominante', badge:'Construcción', badgeClass:'badge-rose', exercises:[
+    { ex:'Puente de Glúteos', detail:'Pausa 3s arriba, una pierna', sets:'4×12 ea', rest:'60s', m:'gluteos', i:0 },
+    { ex:'Sentadilla Búlgara', detail:'Agarre en silla, media rom', sets:'4×8 ea', rest:'75s', m:'piernas', i:2 },
+    { ex:'Wall Sit (Sentadilla en Pared)', detail:'60 segundos', sets:'3×60s', rest:'45s', m:'piernas', i:4 },
+    { ex:'Patada de Glúteo en 4 Puntos', detail:'Con banda si tienes', sets:'3×15 ea', rest:'45s', m:'gluteos', i:1 },
+    { ex:'Dead Bug', detail:'Brazo opuesto + pierna', sets:'3×10 ea', rest:'30s', m:'core', i:1 },
+    { ex:'Plancha (Plank)', detail:'60 segundos', sets:'3×60s', rest:'30s', m:'core', i:0 },
+  ]},
+  { label:'Día 2', focus:'Espalda + Hombros + Core', badge:'Construcción', badgeClass:'badge-rose', exercises:[
+    { ex:'Jalar Banda de Resistencia (Row)', detail:'Inclinada, retrae escápula', sets:'4×12', rest:'60s', m:'espalda', i:2 },
+    { ex:'Ángel de Nieve Invertido', detail:'Tempo controlado', sets:'3×12', rest:'45s', m:'espalda', i:1 },
+    { ex:'Elevación Lateral con Banda', detail:'Una mano, 3s al bajar', sets:'3×12 ea', rest:'45s', m:'hombros', i:1 },
+    { ex:'Curl con Banda de Resistencia', detail:'Alternado, aprieta arriba', sets:'4×10 ea', rest:'60s', m:'brazos', i:0 },
+    { ex:'Extensión Tríceps sobre Cabeza', detail:'Dos manos', sets:'3×12', rest:'60s', m:'brazos', i:2 },
+    { ex:'Escaladores (Mountain Climbers)', detail:'30s, ritmo moderado', sets:'3×30s', rest:'30s', m:'core', i:4 },
+  ]},
+  { label:'Día 3', focus:'Cuerpo Completo + Potencia', badge:'Construcción', badgeClass:'badge-rose', exercises:[
+    { ex:'Sentadilla', detail:'4s excéntrica al bajar', sets:'4×10', rest:'75s', m:'piernas', i:0 },
+    { ex:'Flexión Clásica (Push-Up)', detail:'O en rodillas, 4s abajo', sets:'4×8', rest:'75s', m:'pecho', i:1 },
+    { ex:'Sentadilla Sumo', detail:'Pausa 3s abajo', sets:'3×10', rest:'60s', m:'gluteos', i:2 },
+    { ex:'Apertura de Banda (Pull-Apart)', detail:'Sobre la cabeza', sets:'3×20', rest:'45s', m:'espalda', i:3 },
+    { ex:'Giro Ruso (Bird Dog)', detail:'Pausa 2s, alternado', sets:'3×10 ea', rest:'30s', m:'core', i:3 },
+    { ex:'Hollow Body Hold', detail:'Piernas extendidas 30s', sets:'3×30s', rest:'30s', m:'core', i:2 },
+  ]},
+];
+
+const FASE3 = [
+  { label:'Día 1', focus:'Piernas + Glúteos · Alta Intensidad', badge:'Intensidad', badgeClass:'badge-rose', exercises:[
+    { ex:'Sentadilla Búlgara', detail:'4s excéntrica, peso completo', sets:'4×10 ea', rest:'90s', m:'piernas', i:2 },
+    { ex:'Puente de Glúteos', detail:'Una pierna + mochila', sets:'4×12 ea', rest:'60s', m:'gluteos', i:0 },
+    { ex:'Wall Sit (Sentadilla en Pared)', detail:'90 segundos + brazos al frente', sets:'3×90s', rest:'60s', m:'piernas', i:4 },
+    { ex:'Elevación de Pantorrillas', detail:'Una pierna, 3s arriba', sets:'4×15 ea', rest:'45s', m:'piernas', i:3 },
+    { ex:'Escaladores (Mountain Climbers)', detail:'Cross-body 45s', sets:'3×45s', rest:'30s', m:'core', i:4 },
+    { ex:'Plancha (Plank)', detail:'Toque de hombros, 60s', sets:'3×60s', rest:'30s', m:'core', i:0 },
+  ]},
+  { label:'Día 2', focus:'Cuerpo Superior · Superseries', badge:'Intensidad', badgeClass:'badge-rose', exercises:[
+    { ex:'Flexión Clásica (Push-Up)', detail:'4s excéntrica, pausa 2s abajo', sets:'4×10', rest:'75s', m:'pecho', i:1 },
+    { ex:'Jalar Banda de Resistencia (Row)', detail:'1.5 rep (full-half-full)', sets:'4×8', rest:'75s', m:'espalda', i:2 },
+    { ex:'Push-Up Pica (Pike Push-Up)', detail:'Clásico + pausa 2s abajo', sets:'3×10', rest:'75s', m:'hombros', i:0 },
+    { ex:'Apertura de Banda (Pull-Apart)', detail:'Sobre cabeza, lento', sets:'3×20', rest:'45s', m:'espalda', i:3 },
+    { ex:'Curl con Banda de Resistencia', detail:'Técnica 21s', sets:'3×21', rest:'75s', m:'brazos', i:0 },
+    { ex:'Fondos de Tríceps (Dips)', detail:'Piernas extendidas', sets:'3×12', rest:'60s', m:'brazos', i:1 },
+  ]},
+  { label:'Día 3', focus:'Cuerpo Completo · Circuito', badge:'Intensidad', badgeClass:'badge-rose', exercises:[
+    { ex:'Sentadilla Sumo', detail:'Explosiva al subir, 3s al bajar', sets:'4×12', rest:'60s', m:'gluteos', i:2 },
+    { ex:'Flexión Inclinada (Incline Push-Up)', detail:'Superserie con row', sets:'4×10', rest:'60s', m:'pecho', i:2 },
+    { ex:'Jalar Banda de Resistencia (Row)', detail:'Inmediato después del push-up', sets:'4×12', rest:'75s', m:'espalda', i:2 },
+    { ex:'Hollow Body Hold', detail:'Rock 30 reps', sets:'3×30', rest:'30s', m:'core', i:2 },
+    { ex:'Dead Bug', detail:'Con resistencia de banda', sets:'3×10 ea', rest:'30s', m:'core', i:1 },
+    { ex:'Patada de Glúteo en 4 Puntos', detail:'Con banda, 15 reps', sets:'3×15 ea', rest:'45s', m:'gluteos', i:1 },
+  ]},
+];
+
+// ── CARDIO DATA ──────────────────────────────────────────────
+function renderCardio() {
+  const c = document.getElementById('cardio-content');
+  c.innerHTML = `
+    <p class="sub">La caminata es el cardio #1 para quemar grasa sin lesiones. Consistencia > intensidad.</p>
+
+    <div class="ph teal">Zonas de <span>Cardio</span></div>
+    <div class="cardio-zones">
+      <div class="zone-card">
+        <div class="zone-hdr">
+          <div class="zone-dot" style="background:#1B8C7D"></div>
+          <div>
+            <div class="zone-name">Zona 2 · Quema Grasa</div>
+            <div class="zone-hr">60–70% frecuencia cardíaca máx · "Puedo hablar"</div>
+          </div>
+        </div>
+        <div class="zone-desc">Caminata rápida donde puedes hablar pero te sientes activa. Quema directamente grasa. Ideal para los días de fuerza y todos los días.</div>
+        <div class="zone-tip">→ Fase 1: 20–25 min · Fase 2: 30–35 min · Fase 3: 40–45 min</div>
+      </div>
+      <div class="zone-card">
+        <div class="zone-hdr">
+          <div class="zone-dot" style="background:#E07B39"></div>
+          <div>
+            <div class="zone-name">Zona 3 · Cardio Moderado</div>
+            <div class="zone-hr">70–80% frecuencia cardíaca máx · "Oraciones cortas"</div>
+          </div>
+        </div>
+        <div class="zone-desc">Caminata en colinas o inclinación en caminadora. Más calorías quemadas. 1–2 veces por semana máximo al inicio.</div>
+        <div class="zone-tip">→ Agrega en la Fase 2: 15–20 min · Solo 2 veces/semana</div>
+      </div>
+    </div>
+
+    <div class="ph">Plan <span>Semanal</span> de Caminata</div>
+    <div class="card">
+      ${[
+        ['Lunes (Día de Fuerza)', 'Caminata post-entrenamiento · 20 min Zona 2', 'badge-teal'],
+        ['Martes', 'Caminata activa · 25–35 min Zona 2', 'badge-teal'],
+        ['Miércoles (Día de Fuerza)', 'Caminata post-entrenamiento · 20 min Zona 2', 'badge-teal'],
+        ['Jueves', 'Caminata + subidas · 20 min Zona 3 (Fase 2+)', 'badge-amber'],
+        ['Viernes (Día de Fuerza)', 'Caminata post-entrenamiento · 20 min Zona 2', 'badge-teal'],
+        ['Sábado', 'Caminata larga disfrutable · 40–50 min Zona 2', 'badge-teal'],
+        ['Domingo', 'Descanso activo · movilidad 10 min + paseo ligero', 'badge-gray'],
+      ].map(([d,d2,b]) => `<div class="w-row" style="cursor:default">
+        <div class="w-info"><div class="w-name">${d}</div><div class="w-detail">${d2}</div></div>
+      </div>`).join('')}
+    </div>
+
+    <div class="week-intro teal" style="margin-top:14px">
+      <p><strong>⚡ Consejo de Jeff:</strong> El NEAT (actividad sin ejercicio) es ENORME para una maestra de preescolar. Muévete más durante el día: está de pie en lugar de sentada, camina a los alumnos al patio, toma escaleras. Esto puede quemar 200–400 cal extra diarias sin entrenar.</p>
+    </div>
+  `;
+}
+
+// ── RENDER PLANS ─────────────────────────────────────────────
+function renderPlan(days, containerId, isMob) {
+  const c = document.getElementById(containerId);
+  days.forEach(day => {
+    const el = document.createElement('div'); el.className = 'day-card';
+    el.innerHTML = `<div class="day-hdr">
+      <div><div class="day-label">${day.label}</div><div class="day-focus">${day.focus}</div></div>
+      <div class="day-badge ${day.badgeClass}">${day.badge}</div>
+    </div>` +
+      day.exercises.map(e => `<div class="w-row" onclick="openModal('${e.m}',${e.i},${e.mob ? 'true' : 'false'})">
+        <div class="w-info"><div class="w-name">${e.ex}</div><div class="w-detail">${e.detail}</div></div>
+        <div class="w-meta"><div class="w-sets${e.mob ? ' teal' : ''}">${e.sets}</div><div class="w-rest">${e.rest}</div></div>
+      </div>`).join('');
+    c.appendChild(el);
+  });
+}
+
+function switchPlan(p) {
+  ['fase1','fase2','fase3','cardio'].forEach(id => {
+    document.getElementById('plan-'+id).style.display = p===id ? 'block' : 'none';
+  });
+  document.getElementById('btn-fase1').className = 'plan-btn' + (p==='fase1'?' active':'');
+  document.getElementById('btn-fase2').className = 'plan-btn' + (p==='fase2'?' active':'');
+  document.getElementById('btn-fase3').className = 'plan-btn teal-btn' + (p==='fase3'?' active':'');
+  document.getElementById('btn-cardio').className = 'plan-btn amber-btn' + (p==='cardio'?' active':'');
+}
+
+// ── TOOLS ─────────────────────────────────────────────────────
+const TECHS = [
+  { num:'4s', name:'Excéntrica Lenta', desc:'Baja en 4 segundos. La fase eccéntrica causa más daño muscular y por lo tanto más crecimiento. Doble el trabajo con el mismo peso.', ex:'Sentadilla: 4 segundos al bajar, sube normal. Mismas 10 reps = mucho más resultado.' },
+  { num:'ISO', name:'Isométrico', desc:'Mantén en la posición más difícil 2–5 segundos por rep. Recluta más fibras musculares que cualquier técnica dinámica.', ex:'Puente de glúteos: aprieta 3s arriba cada rep. Los glúteos "aprenden" a activarse.' },
+  { num:'1.5×', name:'1.5 Reps', desc:'Rep completa, a la mitad, vuelve abajo, rep completa = 1 repetición. Duplica el tiempo bajo tensión en el rango más difícil.', ex:'Sentadilla: abajo, a la mitad, abajo de nuevo, arriba = 1 rep. Haz 8 así.' },
+  { num:'21s', name:'Técnica 21', desc:'7 reps mitad inferior, 7 reps mitad superior, 7 reps completas = 21 totales. Trabaja cada parte del músculo.', ex:'Curl con banda: 7 partials abajo / 7 arriba / 7 completos = un set brutal.' },
+  { num:'SS', name:'Superserie', desc:'Dos ejercicios seguidos sin descanso entre ellos. Ahorra tiempo y aumenta la quema calórica.', ex:'Sentadilla + Puente de glúteos sin pausa. Descansa 75s después de los dos.' },
+];
+
+function renderTechs() {
+  const l = document.getElementById('tech-list');
+  TECHS.forEach(t => {
+    const el = document.createElement('div'); el.className = 'tech-card';
+    el.innerHTML = `<div class="tech-top"><span class="tech-num">${t.num}</span><span class="tech-name">${t.name}</span></div>
+      <p class="tech-desc">${t.desc}</p><div class="tech-ex">${t.ex}</div>`;
+    l.appendChild(el);
+  });
+}
+
+const GEAR = [
+  { name:'Bandas de Resistencia', price:'~$15–25 · Prioridad #1', uses:['Curl de bíceps — trabajo directo', 'Row de espalda — el mejor ejercicio sin barra', 'Elevación lateral — aislamiento de hombros', 'Extensión de tríceps', 'Activación de glúteos (mini band)', 'Más de 50 variaciones adicionales'] },
+  { name:'Colchoneta de Yoga (Mat)', price:'~$20–35 · Esencial para tu espalda', uses:['Amortiguación para ejercicios en piso', 'Protege rodillas en lunges', 'Movilidad y estiramientos cómodos', 'Señal visual de tu espacio de entrenamiento', 'La diferencia entre querer entrenar y no hacerlo'] },
+  { name:'Barra de Dominadas (Doorframe)', price:'~$25–40 · Siguiente nivel', uses:['Dominadas negativas — el mejor ejercicio de espalda', 'Colgarse descomprime la columna lumbar', 'Asistida con banda para principiantes', 'Pull-ups / chin-ups a futuro', 'Abre posibilidades de fuerza que el peso corporal solo no da'] },
+];
+
+function renderGear() {
+  const l = document.getElementById('gear-list');
+  GEAR.forEach(g => {
+    const el = document.createElement('div'); el.className = 'gear-card';
+    el.innerHTML = `<div class="gear-name">${g.name}</div><div class="gear-price">${g.price}</div><ul class="gear-uses">` +
+      g.uses.map(u => `<li>${u}</li>`).join('') + `</ul>`;
+    l.appendChild(el);
+  });
+}
+
+const MILESTONES = [
+  { num:'10', name:'Flexiones clásicas seguidas', why:'Con ROM completo. Señal de fuerza real de empuje.', level:'lv1', label:'6–8 sem' },
+  { num:'60s', name:'Plancha completa (pies)', why:'Core estabilizado. Base de todo lo demás.', level:'lv1', label:'8–10 sem' },
+  { num:'15', name:'Puentes de glúteo (una pierna)', why:'Glúteos activos y columna estabilizada.', level:'lv1', label:'6–8 sem' },
+  { num:'20', name:'Sentadillas pausadas (2s)', why:'Fuerza funcional real de pierna.', level:'lv2', label:'10–14 sem' },
+  { num:'10', name:'Sentadilla búlgara (cada pierna)', why:'Fuerza unilateral = protección de rodillas.', level:'lv2', label:'12–16 sem' },
+  { num:'5', name:'Push-ups en diamante', why:'Tríceps y pecho desarrollados.', level:'lv2', label:'14–18 sem' },
+  { num:'30s', name:'Colgarse de la barra', why:'Descomprime la columna. Fuerza de agarre.', level:'lv2', label:'8–12 sem' },
+  { num:'1', name:'Sentadilla pistol asistida', why:'Control de una pierna = atleta. Meta de 6 meses.', level:'lv3', label:'5–7 mes' },
+];
+
+function renderMilestones() {
+  const l = document.getElementById('ms-list');
+  MILESTONES.forEach(m => {
+    const cl = m.level==='lv1' ? 'badge-teal' : m.level==='lv2' ? 'ph-build' : 'ph-push';
+    const el = document.createElement('div'); el.className = 'ms-card';
+    el.innerHTML = `<div class="ms-num">${m.num}</div><div class="ms-info"><div class="ms-name">${m.name}</div><div class="ms-why">${m.why}</div></div><div class="ms-tag ${cl}">${m.label}</div>`;
+    l.appendChild(el);
+  });
+}
+
+function renderBackTips() {
+  const c = document.getElementById('back-tips');
+  c.innerHTML = `
+    <div class="back-warning" style="margin-bottom:8px">
+      <div class="back-warning-icon">⚠️</div>
+      <p><strong>Protocolo de Espalda Baja</strong>
+      Tienes dolor de espalda baja — esto es muy común y mejora RÁPIDO con el entrenamiento correcto. Nunca hagas rotaciones de columna bajo carga. Siempre activa el core antes de levantar. Detente si sientes dolor agudo (molestia muscular es normal, dolor agudo = para).</p>
+    </div>
+    <div class="card">
+      ${[
+        ['✅ Sí hacer', 'Dead Bug, Bird Dog, Cat-Cow, Puente de Glúteos — fortalecen sin comprimir'],
+        ['✅ Sí hacer', 'Cat-Cow todos los días por la mañana — 2 minutos cambian tu día'],
+        ['✅ Sí hacer', 'Postura del Niño después de cada entrenamiento — 60 segundos mínimo'],
+        ['⚠️ Modificar', 'Sentadilla — mantén espalda neutral, no la redondees abajo'],
+        ['⚠️ Modificar', 'Superman — si causa dolor, omite. Reemplaza por Bird Dog'],
+        ['❌ Evitar', 'Sit-ups / crunches clásicos — comprimen los discos lumbares'],
+        ['❌ Evitar', 'Burpees, saltos de impacto alto — en la Fase 1 completamente'],
+      ].map(([l,d]) => `<div class="w-row" style="cursor:default">
+        <div class="w-info"><div class="w-name" style="font-size:14px">${l}</div><div class="w-detail">${d}</div></div>
+      </div>`).join('')}
+    </div>
+  `;
+}
+
+// ── PAGE NAV ──────────────────────────────────────────────────
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  if (document.getElementById('modal-wrap').classList.contains('open')) closeModal();
+}
+
+// ── TIMER ─────────────────────────────────────────────────────
+let timerInterval=null, timeLeft=0, totalTime=0, isWork=true, setsDone=0, currentSet=1, workTime=40, restTime=75;
+
+function setPreset(el, work, rest, name) {
+  document.querySelectorAll('.t-preset').forEach(p => p.classList.remove('active'));
+  el.classList.add('active'); workTime=work; restTime=rest;
+  if (timerInterval) { clearInterval(timerInterval); timerInterval=null; }
+  setsDone=0; currentSet=1; isWork=work>0; timeLeft=work>0?work:rest; totalTime=timeLeft;
+  document.getElementById('t-phase').textContent = work>0?'Trabajo':'Descanso';
+  document.getElementById('start-btn').textContent='Iniciar';
+  document.getElementById('t-done').textContent='0';
+  document.getElementById('t-setnum').textContent='1';
+  document.getElementById('t-info').textContent=name+' listo';
+  updateDisplay();
+}
+
+function fmt(s) { return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+
+function updateDisplay() {
+  document.getElementById('t-display').textContent=fmt(timeLeft);
+  document.getElementById('t-bar').style.width=Math.round(timeLeft/totalTime*100)+'%';
+  document.getElementById('t-bar').style.background=isWork?'var(--rose)':'var(--teal)';
+}
+
+function tick() {
+  timeLeft--; updateDisplay();
+  if (timeLeft<=0) {
+    clearInterval(timerInterval); timerInterval=null;
+    if (isWork&&workTime>0) { isWork=false; timeLeft=restTime; totalTime=restTime; document.getElementById('t-phase').textContent='DESCANSA 💚'; setsDone++; document.getElementById('t-done').textContent=setsDone; }
+    else { isWork=workTime>0; timeLeft=isWork?workTime:restTime; totalTime=timeLeft; currentSet=Math.min(currentSet+1,4); document.getElementById('t-setnum').textContent=currentSet; document.getElementById('t-phase').textContent=isWork?'¡TRABAJA! 🔥':'DESCANSA 💚'; }
+    updateDisplay(); timerInterval=setInterval(tick,1000);
+  }
+}
+
+function toggleTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval=null; document.getElementById('start-btn').textContent='Continuar'; return; }
+  document.getElementById('start-btn').textContent='Pausar'; timerInterval=setInterval(tick,1000);
+}
+
+function resetTimer() {
+  clearInterval(timerInterval); timerInterval=null;
+  isWork=workTime>0; timeLeft=isWork?workTime:restTime; totalTime=timeLeft;
+  setsDone=0; currentSet=1;
+  document.getElementById('t-phase').textContent='Lista';
+  document.getElementById('start-btn').textContent='Iniciar';
+  document.getElementById('t-done').textContent='0';
+  document.getElementById('t-setnum').textContent='1';
+  updateDisplay();
+}
+
+function skipPhase() {
+  clearInterval(timerInterval); timerInterval=null;
+  if (isWork&&workTime>0) { isWork=false; timeLeft=restTime; totalTime=restTime; document.getElementById('t-phase').textContent='DESCANSA 💚'; setsDone++; document.getElementById('t-done').textContent=setsDone; }
+  else { isWork=workTime>0; timeLeft=isWork?workTime:restTime; totalTime=timeLeft; currentSet=Math.min(currentSet+1,4); document.getElementById('t-setnum').textContent=currentSet; document.getElementById('t-phase').textContent=isWork?'¡TRABAJA! 🔥':'DESCANSA 💚'; }
+  updateDisplay(); document.getElementById('start-btn').textContent='Iniciar';
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+renderLibrary();
+renderPlan(FASE1,'fase1-days',false);
+renderPlan(FASE2,'fase2-days',false);
+renderPlan(FASE3,'fase3-days',false);
+renderCardio();
+renderTechs();
+renderGear();
+renderMilestones();
+renderBackTips();
+timeLeft=workTime; totalTime=workTime; updateDisplay();
+</script>
+</body>
+</html>
